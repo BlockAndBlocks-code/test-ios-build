@@ -28,18 +28,19 @@ jobs:
             -project TestApp.xcodeproj \
             -scheme TestApp \
             -sdk iphoneos \
-            -configuration Release \
+            -configuration Debug \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
+            SWIFT_COMPILATION_MODE=incremental \
             build
 
       - name: Package unsigned .ipa
         run: |
           mkdir -p Payload
-          cp -r ~/Library/Developer/Xcode/DerivedData/*/Build/Products/Release-iphoneos/TestApp.app Payload/ 2>/dev/null || \
-          find ~/Library/Developer/Xcode/DerivedData -name "TestApp.app" -path "*Release-iphoneos*" -type d -exec cp -r {} Payload/ \;
+          cp -r ~/Library/Developer/Xcode/DerivedData/*/Build/Products/Debug-iphoneos/TestApp.app Payload/ 2>/dev/null || \
+          find ~/Library/Developer/Xcode/DerivedData -name "TestApp.app" -path "*Debug-iphoneos*" -type d -exec cp -r {} Payload/ \;
           zip -r TestApp-unsigned.ipa Payload
 
       - name: Upload IPA
