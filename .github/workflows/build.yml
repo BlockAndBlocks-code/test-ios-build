@@ -29,15 +29,16 @@ jobs:
             -scheme TestApp \
             -sdk iphonesimulator \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             build
 
       - name: Package unsigned .ipa
         run: |
           mkdir -p Payload
+          cp -r ~/Library/Developer/Xcode/DerivedData/*/Build/Products/Debug-iphonesimulator/TestApp.app Payload/ 2>/dev/null || \
           cp -r build/Build/Products/Debug-iphonesimulator/TestApp.app Payload/ 2>/dev/null || \
-          cp -r ~/Library/Developer/Xcode/DerivedData/*/Build/Products/Debug-iphonesimulator/TestApp.app Payload/
+          find ~/Library/Developer/Xcode/DerivedData -name "TestApp.app" -type d -exec cp -r {} Payload/ \; 
           zip -r TestApp-unsigned.ipa Payload
 
       - name: Upload IPA
