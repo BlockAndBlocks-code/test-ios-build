@@ -1,0 +1,16 @@
+name: TestApp
+options:
+  bundleIdPrefix: com.test
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  TestApp:
+    type: application
+    platform: iOS
+    sources: [TestApp]
+    settings:
+      base:
+        INFOPLIST_FILE: TestApp/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.test.testapp
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
